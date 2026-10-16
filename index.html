@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RWA Operações Fiscais</title>
+  <meta name="claude:viewport-fit-sides" content="cover">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+  <meta property="og:title" content="RWA - Plataforma de Operações Fiscais Inteligente">
+  <meta property="og:description" content="Da coleta à conferência fiscal em poucos cliques.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://williamrobertoangelo-bot.github.io/rwa-landing/">
+  <style>
+  /* Layout: coluna única, faixas escuras do portal RWA, fluxo Baixa → Gera → Confere → Entrega em destaque */
+  :root {
+    --bg: #070d1a;
+    --card: #111c33;
+    --card2: #0f1830;
+    --text: #e8edf5;
+    --muted: #8e9ab8;
+    --accent: #7c3aed;
+    --accent2: #4f46e5;
+    --accent-soft: #a5b4fc;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(124,58,237,0.35);
+    --sans: 'Sora', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  section, footer { padding-block: 72px; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+
+  .hero { position: relative; overflow: hidden; padding-block: 88px 72px; }
+  .hero::before { content: ""; position: absolute; inset: -40% -20% auto auto; width: 70vw; max-width: 760px; aspect-ratio: 1; background: radial-gradient(circle, rgba(124,58,237,0.28), transparent 65%); pointer-events: none; }
+  .hero .wrap { position: relative; display: grid; gap: 22px; }
+  .brand { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .brand strong { font-size: 2rem; font-weight: 800; letter-spacing: 0.04em; }
+  .brand span { font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent-soft); }
+  .hero h1 { font-size: clamp(2.1rem, 5.4vw, 3.8rem); font-weight: 700; line-height: 1.1; max-width: 18ch; }
+  .hero h1 em { font-style: normal; color: var(--accent-soft); }
+  .lead { font-size: 1.15rem; color: var(--text); max-width: 60ch; }
+  .body { color: var(--muted); max-width: 64ch; }
+  .tagline { font-family: var(--mono); font-size: 0.85rem; color: var(--accent-soft); letter-spacing: 0.06em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 6px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; border-radius: 10px; font-family: var(--sans); font-weight: 600; font-size: 0.98rem; text-decoration: none; transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+  .btn-primary { background: var(--accent); color: var(--text); }
+  .btn-primary:hover { background: var(--accent2); }
+  .btn-ghost { border: 1px solid var(--border2); color: var(--text); background: transparent; }
+  .btn-ghost:hover { border-color: var(--accent-soft); }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:focus-visible { outline: 2px solid var(--accent-soft); outline-offset: 3px; }
+
+  .flow { background: var(--card2); border-block: 1px solid var(--border); }
+  .flow h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 700; margin-bottom: 36px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; counter-reset: step; }
+  .step { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 20px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .step::before { counter-increment: step; content: "0" counter(step); font-family: var(--mono); font-size: 0.78rem; color: var(--accent-soft); }
+  .step h3 { font-size: 1.35rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+  .step p { color: var(--muted); font-size: 0.95rem; }
+  .step p.zero { margin-top: auto; align-self: stretch; display: flex; align-items: center; gap: 8px; font-family: var(--sans); font-size: 0.85rem; font-weight: 600; line-height: 1.3; color: var(--accent-soft); background: rgba(124,58,237,0.18); border: 1px solid var(--border2); border-radius: 6px; padding: 7px 10px; }
+  .step p.zero::before { content: "✓"; flex-shrink: 0; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); color: var(--text); font-size: 0.65rem; }
+  .step:not(:last-child)::after { content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--accent); color: var(--text); font-size: 0.85rem; z-index: 1; }
+
+  .hl { color: var(--accent-soft); font-weight: 700; background: rgba(124,58,237,0.22); border-bottom: 2px solid var(--accent); padding: 1px 6px; border-radius: 4px; }
+  .highlights { padding-block: 24px 72px; }
+  .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .feature { background: linear-gradient(160deg, rgba(124,58,237,0.20), var(--card) 70%); border: 1px solid var(--border2); border-radius: 16px; padding: 36px 28px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+  .feature h3 { font-size: clamp(1.3rem, 2.2vw, 1.6rem); font-weight: 700; line-height: 1.3; }
+  .feature p { color: var(--muted); font-size: 1.05rem; }
+
+  .cta { text-align: left; }
+  .cta .box { background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(79,70,229,0.10)); border: 1px solid var(--border2); border-radius: 16px; padding: 44px 36px; display: grid; gap: 16px; }
+  .cta h2 { font-size: clamp(1.6rem, 3.6vw, 2.4rem); font-weight: 700; }
+  .cta p { color: var(--muted); font-size: 1.1rem; }
+
+  footer { border-top: 1px solid var(--border); padding-block: 40px; }
+  footer .wrap { display: grid; gap: 6px; }
+  footer strong { font-weight: 700; }
+  footer .small { color: var(--muted); font-size: 0.85rem; padding-top: 10px; }
+
+  @media (max-width: 860px) {
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .step:nth-child(2)::after { display: none; }
+    .features { grid-template-columns: 1fr; gap: 16px; }
+  }
+  @media (max-width: 520px) {
+    section { padding-block: 56px; }
+    .steps { grid-template-columns: 1fr; gap: 20px; }
+    .step:not(:last-child)::after { display: grid; content: "↓"; right: auto; left: 50%; top: auto; bottom: -22px; transform: translateX(-50%); }
+    .cta .box { padding: 32px 22px; }
+    .btn { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:hover { transform: none; } }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand"><strong>RWA</strong><span>Plataforma de Operações Fiscais Inteligente</span></div>
+    <h1>Da coleta à conferência fiscal <em>em poucos cliques.</em></h1>
+    <p class="lead">Automatize as rotinas operacionais do departamento fiscal, reduza tarefas repetitivas e transforme informações em resultados.</p>
+    <p class="body">A RWA consulta, baixa documentos fiscais e constrói automaticamente relatórios para facilitar a análise fiscal, organiza arquivos, prepara a importação para o sistema Domínio, <strong class="hl">antecipa erros de importação</strong>, <strong class="hl">importa coletivamente</strong>, <strong class="hl">salva automaticamente relatórios que a Domínio não gera por rotina automática, e realiza uma primeira conferência, identificando possíveis divergências.</strong></p>
+    <p class="body">Tudo isso em poucos cliques, permitindo que sua equipe dedique mais tempo à análise e às decisões tributárias.</p>
+    <p class="tagline">Cada etapa, apenas um clique.</p>
+  </div>
+</header>
+
+<section class="highlights">
+  <div class="wrap">
+    <div class="features">
+      <div class="feature"><h3>Muito além da coleta</h3><p>Automatiza tarefas que hoje exigem muitas intervenções manuais.</p></div>
+      <div class="feature"><h3>Relatórios construídos automaticamente para facilitar sua análise.</h3></div>
+      <div class="feature"><h3>Conferência preliminar ajuda a identificar diferenças antes da validação.</h3></div>
+    </div>
+  </div>
+</section>
+
+<section class="flow" id="como-funciona">
+  <div class="wrap">
+    <h2>Como funciona</h2>
+    <ol class="steps">
+      <li class="step"><h3>Baixa</h3><p>Consulta, coleta documentos fiscais, registra evidências de empresas sem movimento, constrói relatórios com as informações fiscais baixadas, para facilitar a análise inicial.</p><p class="zero">Zero intervenção manual.</p></li>
+      <li class="step"><h3>Gera</h3><p>Prepara a importação via rotina automática para Domínio e constrói os relatórios conforme as movimentações, <strong class="hl">gera relatórios que a Domínio não gera via rotina automática</strong></p><p class="zero">Zero intervenção manual.</p></li>
+      <li class="step"><h3>Confere</h3><p>Confronta documentos e relatórios para apontar possíveis divergências.</p><p class="zero">Zero intervenção manual.</p></li>
+      <li class="step"><h3>Entrega</h3><p>Disponibiliza tudo organizado para a análise técnica.</p><p class="zero">Zero intervenção manual.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap">
+    <div class="box">
+      <h2>Conheça na prática</h2>
+      <p>Transforme sua rotina fiscal.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://wa.me/message/WHS3P6ELPBROL1" target="_blank" rel="noopener">Teste gratuitamente</a>
+        <a class="btn btn-ghost" href="https://wa.me/message/WHS3P6ELPBROL1" target="_blank" rel="noopener">Solicitar demonstração</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <strong>RWA — Plataforma de Operações Fiscais Inteligente</strong>
+    <span class="tagline">Cada etapa, apenas um clique.</span>
+    <span class="small">© 2026 RWA. Todos os direitos reservados.</span>
+  </div>
+</footer>
+
+</body>
+</html>
